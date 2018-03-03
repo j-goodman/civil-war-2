@@ -10,7 +10,7 @@ var Unit = function (flag) {
     }
     this.troops.push(new Person ('cavalry'));
     this.troops.push(new Person ('artillery'));
-    this.location = MAP['Sonora'];
+    this.location = MAP[Object.keys(MAP)[Math.floor(Math.random() * Object.keys(MAP).length)]];
 }
 
 var Person = function (division) {

@@ -3,13 +3,13 @@ var Unit = function (flag) {
     var count;
     
     this.flag = flag
-    this.soldiers = [];
+    this.troops = [];
     count = 5;
     for (i=0; i<count-2; i++) {
-        this.soldiers.push(new Person ('infantry'));
+        this.troops.push(new Person ('infantry'));
     }
-    this.soldiers.push(new Person ('cavalry'));
-    this.soldiers.push(new Person ('artillery'));
+    this.troops.push(new Person ('cavalry'));
+    this.troops.push(new Person ('artillery'));
     this.location = MAP['Sonora'];
 }
 

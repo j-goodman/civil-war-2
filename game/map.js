@@ -190,7 +190,7 @@ var MAP = {
     symbol: "CA",
     type: 'state',
     nation: 'USA',
-    biome: 'desert',
+    biome: 'hills',
     languages: ['english', 'spanish', 'cantonese', 'mandarin', 'arabic', 'tagolog'],
     borderNames: ['Oregon', 'Nevada', 'Arizona', 'Baja California'],
   }),

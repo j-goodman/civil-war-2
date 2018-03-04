@@ -6,6 +6,7 @@ var Block = function (type, text) {
         bubble: ['section', 'bubble small'],
     };
     this.node = document.createElement(types[type][0]);
+    this.node.block = this;
     this.node.className = types[type][1];
     this.type = type;
     if (text) {
@@ -34,23 +35,33 @@ Block.prototype.text = function (text) {
 
 Block.prototype.setupBubble = function () {
     this.title = this.node.innerText;
-    this.content = 'Now is the winter of our discontent made glorious summer by this son of York, and all the clouds that lour\'d upon our house in the deep bosom of the ocean buried.';
-    this.node.onclick = function () {
-        ALLBLOCKS.map((block) => {
-            if (block.type === 'bubble') {
-                block.node.classList.remove('big');
-                block.node.classList.add('small');
-                block.node.innerText = block.title;
+    this.content = '';
+    this.childBlocks = [];
+    this.node.onclick = function (event) {
+        event.stopPropagation();
+        Array.from(this.node.parentNode.getElementsByClassName('bubble')).map((node) => {
+            if (node !== this.node) {
+                node.block.bubbleCollapse();
             }
         });
         if (this.node.className.includes('small')) {
-            this.node.classList.remove('small');
-            this.node.classList.add('big');
+            this.node.className = 'bubble big';
             this.node.innerText = this.content;
+            if (this.childBlocks) {
+                this.childBlocks.map((child) => {
+                    this.node.appendChild(child.node);
+                });
+            }
         } else {
-            this.node.classList.remove('big');
-            this.node.classList.add('small');
-            this.node.innerText = this.title;
+            this.bubbleCollapse();
         }
     }.bind(this);
 };
+
+Block.prototype.bubbleCollapse = function () {
+  this.node.className = 'bubble small';
+  this.node.innerText = this.title;
+  while (this.node.children[1]) {
+      this.node.removeChild(this.node.children[1]);
+  }
+}

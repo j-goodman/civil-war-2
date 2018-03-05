@@ -30,7 +30,7 @@ window.onload = () => {
             block.content = `${soldier.rank} ${soldier.name}
             ${capitalize(soldier.division)}
             
-            In good health.
+            Healthy.
             
             From the ${soldier.home.type} of ${soldier.home.name}.
             Speaks ${commaList(Object.keys(soldier.languages).map((lang) => {

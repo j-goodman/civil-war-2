@@ -1,5 +1,3 @@
-var ALLBLOCKS = [];
-
 var Block = function (type, text) {
     types = {
         block: ['section', 'block'],
@@ -15,7 +13,6 @@ var Block = function (type, text) {
     if (type === 'bubble') {
         this.setupBubble();
     }
-    ALLBLOCKS.push(this);
 };
 
 Block.prototype.nest = function (...blocks) {

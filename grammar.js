@@ -1,4 +1,5 @@
 var commaList = (list) => {
+    // example: [apple, plantain, tomato] => 'apple, plantain, and tomato'
     var string;
     string = '';
     list.map((name, index) => {
@@ -18,5 +19,10 @@ var commaList = (list) => {
 }
 
 var capitalize = (word) => {
+    // example: 'diogenes' => 'Diogenes'
     return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+var pickRandom = (array) => {
+    return array[Math.floor(Math.random() * array.length)];
 }

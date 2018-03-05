@@ -335,7 +335,7 @@ var MAP = {
     type: 'state',
     nation: 'CSA',
     biome: 'swamp',
-    languages: ['english', 'french', 'spanish'],
+    languages: ['french', 'english', 'spanish'],
     borderNames: ['Arkansas', 'Texas'],
   }),
   'Baja California': new Territory ({

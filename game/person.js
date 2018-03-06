@@ -4,6 +4,7 @@ var Person = function (division, homeName) {
     this.home = MAP[homeName];
     this.languages = {};
     this.languages[this.home.languages[0]] = 'fluent';
+    this.injuries = [];
     if (this.home.languages.length > 1 && Math.round(Math.random())) {
         this.languages[
             this.home.languages[

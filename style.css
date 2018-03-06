@@ -22,6 +22,16 @@ body {
     cursor: pointer;
 }
 
+.bubble > .bubble > .bubble:hover {
+  background: #bba;
+  cursor: pointer;    
+}
+
+.bubble > .bubble.small:hover {
+  background: #bba;
+  cursor: pointer;    
+}
+
 .bubble.small {
     max-height: 52px;
 }

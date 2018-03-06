@@ -7,11 +7,14 @@ body {
     padding: 16px;
 }
 
-.bubble {
+.bubble, .action {
     background: #ddc;
-    border-radius: 24px;
     padding: 16px;
     margin: 16px 0 16px 0;
+}
+
+.bubble {
+    border-radius: 24px;
 }
 
 .bubble:hover {
@@ -21,4 +24,12 @@ body {
 
 .bubble.small {
     max-height: 52px;
+}
+
+.action {
+  border-radius: 18px;
+}
+
+.action:hover {
+    background: #c44;
 }

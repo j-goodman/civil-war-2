@@ -118,11 +118,18 @@ Talker.prototype.resetMemory  = function () {
 
 var namer = new Talker (3);
 
-var generateName = (language) => {
+var generateName = (person) => {
     var firstNames = [];
     var names = [];
 		var name;
+		var language;
+		var secondLanguage;
     namer.resetMemory();
+		language = person.languageList()[Math.floor(Math.random() * person.languageList().length)];
+		secondLanguage = person.languageList()[Math.floor(Math.random() * person.languageList().length)];
+    namesByLanguage[secondLanguage].map((name) => {
+        firstNames.push(name.split(' ')[0]);
+    });
     namesByLanguage[language].map((name) => {
         firstNames.push(name.split(' ')[0]);
         names.push(name.split(' ')[0]);

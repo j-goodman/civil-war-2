@@ -57,7 +57,9 @@ Talker.prototype.read = function (string) {
 Talker.prototype.write = function (base) {
   var sentence = [];
   var string = '';
-  base = base ? base : 'Fallback';
+  if (!base) {
+		return false;
+	};
   base.map(() => {
     sentence.push(new Cell ());
   });
@@ -119,15 +121,140 @@ var namer = new Talker (3);
 var generateName = (language) => {
     var firstNames = [];
     var names = [];
+		var name;
     namer.resetMemory();
     namesByLanguage[language].map((name) => {
         firstNames.push(name.split(' ')[0]);
         names.push(name.split(' ')[0]);
         namer.read(name.split(' ')[0]);
-        names.push(name.split(' ').slice(1, name.split(' ').length).join(''));
-        namer.read(name.split(' ').slice(1, name.split(' ').length).join(''));
+				if (name.split(' ').length > 1) {
+						names.push(name.split(' ').slice(1, name.split(' ').length).join(''));
+						namer.read(name.split(' ').slice(1, name.split(' ').length).join(''));
+				}
     });
-    return firstNames[Math.floor(Math.random() * firstNames.length)] +
+		name = firstNames[Math.floor(Math.random() * firstNames.length)] +
     ' ' + namer.write(names[Math.floor(Math.random() * names.length)]);
+		nameRules.map(method => {
+				name = method(name);
+		});
+		// console.log(':', name);
+    return name;
 }
 
+String.prototype.insert = function (character, index) {
+		return this.slice(0, index) + character + this.slice(index, this.length);
+}
+
+String.prototype.insertReplace = function (character, index) {
+		return this.slice(0, index) + character + this.slice(index + 1, this.length);
+}
+
+String.prototype.isUpperCase = function () {
+		return this[0] !== this[0].toLowerCase();
+}
+
+// Naming Rules:
+var vowels = ['a', 'e', 'i', 'o', 'u'];
+
+var normalCapitalization = name => {
+		// Jean DenserPae => Jean Denserpae
+		// Inez San tandre => Inez San Tandre
+		var returns;
+		returns = name;
+		name.map((char, index) => {
+				if (char.isUpperCase() && (!['-', ' ', '.', '\''].includes(name[index - 1]) && index !== 0)) {
+						returns = name.insertReplace(char.toLowerCase(), index);
+						console.log('NORMAL CAPITALIZATION', name, '=>', returns);
+						name = returns;
+				} else if (!char.isUpperCase() && (['-', ' ', '.'].includes(name[index - 1]) || index === 0)) {
+						returns = name.insertReplace(char.toUpperCase(), index);
+						console.log('NORMAL UNCAPITALIZATION', name, '=>', returns);
+						name = returns;
+				}
+		});
+		return returns;
+}
+
+var noTriples = name => {
+		// Juan Gorrrez => Juan Gorez
+		var returns;
+		var repeat = true;
+		returns = name;
+		while (repeat) {
+			repeat = false;
+			name.map((char, index) => {
+				if (char === name[index - 1] && char === name[index - 2]) {
+					returns = name.slice(0, index - 2) + name.slice(index, name.length);
+					repeat = true;
+					console.log('NO TRIPLES', name, '=>', returns);
+					name = returns;
+				}
+			});
+		}
+		return returns;
+}
+
+var noDoublesAfterConsonant = name => {
+		// Thomas Fllane => Thomas Fillane
+		var returns;
+		returns = name;
+		name.map((char, index) => {
+				if (
+					char === name[index - 1] &&
+					!vowels.concat(['h', 'r', 'y', 'á', 'é', 'í']).includes(name[index - 2].toLowerCase()) &&
+					!vowels.includes(char)
+				) {
+						returns = name.insert(vowels[Math.floor(Math.random() * 5)], index - 1);
+						console.log('NO DOUBLES AFTER CONSONANT', name, '=>', returns);
+				}
+		});
+		return returns;
+}
+
+var vowelAfterEne = name => {
+		// Sylvia Numeñ => Sylvia Numeña
+		var returns;
+		returns = name;
+		name.map((char, index) => {
+				if (char === 'ñ' && index === name.length - 1) {
+						returns = name + ['a', 'o', 'e'][Math.floor(Math.random() * 3)];
+						console.log('CANNOT END WITH Ñ', name, '=>', returns);
+				}
+		});
+		return returns;
+}
+
+var noRepeatedChunks = name => {
+		// Josefina Caranananezan => Josefina Caranezan
+		var returns;
+		var chunks = {even: '', odd: ''};
+		var current;
+		var repeatcount = {even: 0, odd: 0};
+		returns = name;
+		name.map((char, index) => {
+				current = index % 2 ? 'odd' : 'even';
+				if (name.slice(index, index + 2) === chunks[current]) {
+						repeatcount[current] += 1;
+				} else {
+						if (repeatcount[current] > 1) {
+								returns = name.slice(
+										0, index - (repeatcount[current] * 2)
+								) + name.slice(
+										index, name.length
+								);
+								repeatcount[current] = 0;
+								console.log('NO REPEATED CHUNKS', name, '=>', returns)
+						}
+						chunks[current] = name.slice(index, index + 2);
+				}
+		})
+		return returns;
+}
+
+var nameRules = [
+		noTriples,
+		noRepeatedChunks,
+		vowelAfterEne,
+		noDoublesAfterConsonant,
+		normalCapitalization,
+];

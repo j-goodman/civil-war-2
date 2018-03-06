@@ -1,18 +1,20 @@
-var Block = function (type, text) {
+var Block = function (type, text, action) {
     types = {
         block: ['section', 'block'],
         bubble: ['section', 'bubble small'],
+        action: ['section', 'action'],
     };
     this.node = document.createElement(types[type][0]);
     this.node.block = this;
     this.node.className = types[type][1];
     this.type = type;
-    if (text) {
-        this.text(text);
+    this.text(text ? text : '');
+    var setups = {
+        bubble: this.setupBubble.bind(this),
+        action: this.setupAction.bind(this, action),
+        block: () => {}
     }
-    if (type === 'bubble') {
-        this.setupBubble();
-    }
+    setups[type]();
 };
 
 Block.prototype.nest = function (...blocks) {
@@ -44,6 +46,9 @@ Block.prototype.setupBubble = function () {
         if (this.node.className.includes('small')) {
             this.node.className = 'bubble big';
             this.node.innerText = this.content;
+            while (this.node.children[1]) {
+                this.node.removeChild(this.node.children[1]);
+            }
             if (this.childBlocks) {
                 this.childBlocks.map((child) => {
                     this.node.appendChild(child.node);
@@ -56,9 +61,13 @@ Block.prototype.setupBubble = function () {
 };
 
 Block.prototype.bubbleCollapse = function () {
-  this.node.className = 'bubble small';
-  this.node.innerText = this.title;
-  while (this.node.children[1]) {
-      this.node.removeChild(this.node.children[1]);
-  }
+    this.node.className = 'bubble small';
+    this.node.innerText = this.title;
+    while (this.node.children[1]) {
+        this.node.removeChild(this.node.children[1]);
+    }
+}
+
+Block.prototype.setupAction = function (action) {
+    this.node.onclick = action.bind(this);
 }

@@ -49,9 +49,9 @@ window.onload = () => {
         game.player.unit.troops.map((soldier) => {
             block = new Block ('bubble', soldier.name + ', ' + capitalize(soldier.division));
             block.content = `${soldier.rank} ${soldier.name}
-            ${capitalize(soldier.division)},
+            ${capitalize(soldier.division)}.
             
-            healthy.
+            ${soldier.injuries[0] ? soldier.injuries[0].ongoing : 'Healthy'}.
             
             From the ${soldier.home.type} of ${soldier.home.name}.
             Speaks ${commaList(Object.keys(soldier.languages).map((lang) => {

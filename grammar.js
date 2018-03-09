@@ -22,7 +22,3 @@ var capitalize = (word) => {
     // example: 'diogenes' => 'Diogenes'
     return word.charAt(0).toUpperCase() + word.slice(1);
 }
-
-var pickRandom = (array) => {
-    return array[Math.floor(Math.random() * array.length)];
-}

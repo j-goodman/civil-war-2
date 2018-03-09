@@ -9,6 +9,7 @@ var Territory = function (args) {
   this.flag = '';
   this.loyalTo = '';
   this.loyalty = 0;
+  this.graveyard = [];
   this.reserves = {
     infantry: 0,
     cavalry: 0,

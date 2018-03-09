@@ -5,6 +5,9 @@ var Person = function (division, homeName) {
     this.languages = {};
     this.languages[this.home.languages[0]] = 'fluent';
     this.injuries = [];
+    this.health = 12;
+    this.alive = true;
+    this.territory = null;
     if (this.home.languages.length > 1 && Math.round(Math.random())) {
         this.languages[
             this.home.languages[
@@ -20,3 +23,9 @@ var Person = function (division, homeName) {
 Person.prototype.languageList = function () {
     return Object.keys(this.languages);
 }
+
+Person.prototype.die = function (message) {
+    this.alive = false;
+    this.territory.graveyard.push(this);
+    console.log(message);
+};

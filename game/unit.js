@@ -21,8 +21,24 @@ var randomLocation = () => {
 Unit.prototype.goTo = function (territoryName) {
     if (this.location.borderNames.includes(territoryName)) {
         this.location = MAP[territoryName];
+        this.incurInjury();
+        this.troops.map(soldier => {
+            soldier.territory = this.territory;
+        });
         display.update();
     } else {
         console.error(territoryName + ' doesn\'t border ' + this.location.name + '.');
+    }
+};
+
+Unit.prototype.incurInjury = function () {
+    if (Math.round(Math.random())) {
+        let victim = pickRandom(this.troops);
+        let injury = pickRandom(game.injuries);
+        console.log('victim\'s injuries', victim.injuries);
+        let newInjury = new Injury(victim, injury);
+        console.log('being pushed', newInjury);
+        victim.injuries.push(newInjury);
+        console.log(injury.describe(victim));
     }
 };

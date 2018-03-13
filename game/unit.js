@@ -1,7 +1,7 @@
 var Unit = function (flag) {
     var i;
     var count;
-    
+
     this.flag = flag
     this.troops = [];
     count = 5;
@@ -15,16 +15,16 @@ var Unit = function (flag) {
 }
 
 var randomLocation = () => {
-  return MAP[Object.keys(MAP)[Math.floor(Math.random() * Object.keys(MAP).length)]];
+    return wheels.random(MAP);
 }
 
 Unit.prototype.goTo = function (territoryName) {
     if (this.location.borderNames.includes(territoryName)) {
         this.location = MAP[territoryName];
-        this.incurInjury();
         this.troops.map(soldier => {
-            soldier.territory = this.territory;
+            soldier.location = this.location;
         });
+        this.incurInjury();
         display.update();
     } else {
         console.error(territoryName + ' doesn\'t border ' + this.location.name + '.');
@@ -33,12 +33,14 @@ Unit.prototype.goTo = function (territoryName) {
 
 Unit.prototype.incurInjury = function () {
     if (Math.round(Math.random())) {
-        let victim = pickRandom(this.troops);
-        let injury = pickRandom(game.injuries);
+        let victim = wheels.random(this.troops);
+        let injury = wheels.random(game.injuries);
         console.log('victim\'s injuries', victim.injuries);
-        let newInjury = new Injury(victim, injury);
-        console.log('being pushed', newInjury);
-        victim.injuries.push(newInjury);
-        console.log(injury.describe(victim));
+        console.log(injury.conditions(victim));
+        if (injury.conditions(victim)) {
+            let newInjury = new Injury(victim, injury);
+            victim.injuries.push(newInjury);
+            console.log(injury.describe(victim));
+        }
     }
 };

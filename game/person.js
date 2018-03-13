@@ -15,7 +15,7 @@ var Person = function (division, homeName) {
             ]
         ] = ['basic', 'proficient', 'fluent'][Math.floor(Math.random() * 3)];
     }
-    
+
     // Name character:
     this.name = generateName(this);
 }
@@ -26,6 +26,6 @@ Person.prototype.languageList = function () {
 
 Person.prototype.die = function (message) {
     this.alive = false;
-    this.territory.graveyard.push(this);
+    this.location.graveyard.push(this);
     console.log(message);
 };

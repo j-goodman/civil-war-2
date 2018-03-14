@@ -4,4 +4,4 @@ game.player = {
     unit: new Unit ('union'),
 }
 
-game.player.person = game.player.unit.wagonSargeant;
+game.player.person = game.player.unit.captain;

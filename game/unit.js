@@ -3,15 +3,19 @@ var Unit = function (flag) {
     var count;
 
     this.flag = flag
+    this.location = randomLocation();
+    
     this.troops = [];
     count = 5;
     for (i=0; i<count-2; i++) {
-        this.troops.push(new Person ('infantry', randomLocation().name));
+        this.troops.push(new Person ('infantry', MAP[wheels.random(this.location.borderNames.concat([this.location.name]))].name));
     }
-    this.troops.push(new Person ('cavalry', randomLocation().name));
-    this.troops.push(new Person ('artillery', randomLocation().name));
+    this.troops.push(new Person ('cavalry', MAP[wheels.random(this.location.borderNames)].name));
+    this.troops.push(new Person ('artillery', MAP[wheels.random(this.location.borderNames)].name));
+    
     this.player = false;
-    this.location = randomLocation();
+    this.troops[2].rank = 'Capt.';
+    this.troops[count-1].rank = 'Sgt.';
 }
 
 var randomLocation = () => {

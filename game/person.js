@@ -1,3 +1,9 @@
+var ranks = [
+    ['Private', 'Pvt.'], ['Sergeant', 'Sgt.'], // <= Enlisted
+    ['Captain', 'Capt.'], ['Colonel', 'Col.'], ['General', 'Gen.'], // <= Officers
+    ['King', 'King'], ['President', 'Pres.'], // <= Rulers
+];
+
 var Person = function (division, homeName) {
     this.division = division;
     this.rank = 'Pvt.';
@@ -7,7 +13,7 @@ var Person = function (division, homeName) {
     this.injuries = [];
     this.health = 12;
     this.alive = true;
-    this.territory = null;
+    this.location = null;
     if (this.home.languages.length > 1 && Math.round(Math.random())) {
         this.languages[
             this.home.languages[

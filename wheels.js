@@ -1,4 +1,4 @@
-var wheels = {};
+window.wheels = {};
 
 // Iterable methods
 wheels.random = iterable => {
@@ -16,7 +16,6 @@ wheels.replaceChar = (string, position, char) => {
     return string.slice(0, position) + char + string.slice(position + 1, string.length);
 }
 
-// String methods
 wheels.switchChar = (string, firstPlace, secondPlace) => {
     let second = string[secondPlace];
     string = wheels.replaceChar(string, secondPlace, string[firstPlace]);

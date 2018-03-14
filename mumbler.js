@@ -135,8 +135,8 @@ var generateName = (person) => {
         names.push(name.split(' ')[0]);
         namer.read(name.split(' ')[0]);
 				if (name.split(' ').length > 1) {
-						names.push(name.split(' ').slice(1, name.split(' ').length).join(''));
-						namer.read(name.split(' ').slice(1, name.split(' ').length).join(''));
+						names.push(name.split(' ').slice(Math.floor(Math.random() * name.split(' ').length), name.split(' ').length).join(''));
+						namer.read(name.split(' ').slice(Math.floor(Math.random() * name.split(' ').length), name.split(' ').length).join(''));
 				}
     });
 		name = firstNames[Math.floor(Math.random() * firstNames.length)] +
@@ -144,7 +144,6 @@ var generateName = (person) => {
 		nameRules.map(method => {
 				name = method(name);
 		});
-		// console.log(':', name);
     return name;
 }
 
@@ -160,10 +159,54 @@ String.prototype.isUpperCase = function () {
 		return this[0] !== this[0].toLowerCase();
 }
 
-// Naming Rules:
-var vowels = ['a', 'e', 'i', 'o', 'u'];
+// Accent functions:
+var converters = {
+		acutes: {
+				a: 'á',
+				e: 'é',
+				i: 'í',
+				o: 'ó',
+				u: 'ú',
+		},
+		graves: {
+				a: 'á',
+				e: 'é',
+				i: 'í',
+				o: 'ó',
+				u: 'ú',
+		},
+		mutes: {
+				'á': 'a',
+				'é': 'e',
+				'í': 'i',
+				'ó': 'o',
+				'ú': 'u',
+				'à': 'a',
+				'è': 'e',
+				'ì': 'i',
+				'ò': 'o',
+				'ù': 'u',
+		},
+};
 
-var normalCapitalization = name => {
+var addAcute = char => {
+		return converters.accutes[char] ? converters.accutes[char] : char;
+};
+var addGrave = char => {
+		return converters.graves[char] ? converters.graves[char] : char;
+};
+var mute = char => {
+		return converters.mutes[chars] ? converters.mutes[chars] : char;
+};
+var accented = char => {
+		return 'áéíóúàèìòù'.includes(char)
+};
+
+
+// Naming Rules:
+let vowels = ['a', 'e', 'i', 'o', 'u'];
+
+let normalCapitalization = name => {
 		// Jean DenserPae => Jean Denserpae
 		// Inez San tandre => Inez San Tandre
 		var returns;
@@ -182,7 +225,7 @@ var normalCapitalization = name => {
 		return returns;
 }
 
-var noTriples = name => {
+let noTriples = name => {
 		// Juan Gorrrez => Juan Gorez
 		var returns;
 		var repeat = true;
@@ -201,7 +244,7 @@ var noTriples = name => {
 		return returns;
 }
 
-var noDoublesAfterConsonant = name => {
+let noDoublesAfterConsonant = name => {
 		// Thomas Fllane => Thomas Fillane
 		var returns;
 		returns = name;
@@ -218,7 +261,7 @@ var noDoublesAfterConsonant = name => {
 		return returns;
 }
 
-var vowelAfterEne = name => {
+let vowelAfterEne = name => {
 		// Sylvia Numeñ => Sylvia Numeña
 		var returns;
 		returns = name;
@@ -231,7 +274,7 @@ var vowelAfterEne = name => {
 		return returns;
 }
 
-var noRepeatedChunks = name => {
+let noRepeatedChunks = name => {
 		// Josefina Caranananezan => Josefina Caranezan
 		var returns;
 		var chunks = {even: '', odd: ''};
@@ -258,10 +301,22 @@ var noRepeatedChunks = name => {
 		return returns;
 }
 
+let shiftAccents = name => {
+		// José Cóúravéz => José Couravéz
+		// let holding = false;
+		// let result = '';
+		// name.split('').map(char => {
+		// 
+		// 		result += 
+		// })
+		return name;
+}
+
 var nameRules = [
 		noTriples,
 		noRepeatedChunks,
 		vowelAfterEne,
 		noDoublesAfterConsonant,
 		normalCapitalization,
+		shiftAccents,
 ];

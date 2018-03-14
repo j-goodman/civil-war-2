@@ -3,7 +3,7 @@ var display = {};
 window.onload = () => {
     display.main = new Block ('block');
     display.main.addToPage();
-    display.main.text('The North American Civil War has raged for a hundred years. The continent is rocked by cannonfire. You\'re the wagon sargeant of a unit of five soldiers, your job is to manage the rations and equipment.');
+    display.main.text('The continent is rocked by cannonfire. When the North American Civil War had raged for a hundred years, the remaining leaders on the East Coast, along with those in Europe and Asia, resolved the conflict by quarantining it, abandoning their own troops in the west and fortifying the Mississippi River against them all. You command a unit of five troops.');
     
     display.location = new Block ('bubble', 'LOCATION');
     display.location.update = () => {
